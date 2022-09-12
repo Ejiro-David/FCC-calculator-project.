@@ -1,4 +1,4 @@
 Code with formula/expression logic.
 
-fix max and min widths, fix responsiveness
+fix max and min widths, fix responsivenes
 
