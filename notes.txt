@@ -7,3 +7,5 @@ create a seperate handler for operators
 each operand must not begin with a zero
 
 recieve input at handle click
+
+reconfigure eslint to make code more spaceous and neat.
