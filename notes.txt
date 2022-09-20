@@ -9,3 +9,23 @@ each operand must not begin with a zero
 recieve input at handle click
 
 reconfigure eslint to make code more spaceous and neat.
+
+
+
+
+
+
+
+
+    // if(display === 0 && !operator){
+    //   setDisplay(text)
+    // }else{
+
+      
+    //   if(operator){
+    //     setOperand1(display)
+    //     console.log(display, operand1)
+    //   } 
+    //   setDisplay(display + text);
+      
+    // }

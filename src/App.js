@@ -4,47 +4,40 @@ import "./App.css";
 function App() {
   const [display, setDisplay] = useState(0);
   const [operand1, setOperand1] = useState();
-  const [operand2, setOperand2] = useState();
-  const [opr, setOpr] = useState('')
+  // const [operand2, setOperand2] = useState();
+  // const [opr, setOpr] = useState("");
 
-  const handleClick = (e) => {
+  const handleNumPress = (e) => {
     e.preventDefault();
-    let text = e.target.innerText;//receive input at handle click
-    let operator = e.target.className === 'operator'
-    console.log(operator)
-
-    //check state of display to know if input marks the begining of 1st or 2nd opersnd
-    //if state is:
-    // zero begin first operand1, allow one decimal within.
-    // no operand can begin with a sign or multiple zeros
-// if oprt comes in update opr state and begin second operand.
-
+    let text = e.target.innerText;
     if(display === 0){
-      setDisplay(text)
+      setDisplay(text);
     }else{
-
-      
-      if(operator){
-        setOperand1(display)
-        console.log(display, operand1)
-      } 
-      setDisplay(display + text);
-      
+      setDisplay(display + text)
     }
+    console.log(display)
+  };
+
+  const handleOperator = (e) => {
+    e.preventDefault()
+    let sign = e.target.innerText;
+    const displayArr = display.split('')
+    if(!displayArr.includes('-' | '+' | '/' | '*')){
+      setDisplay(display + sign)
+    }else{
+      console.log('display already has a sign?')
+    }
+
   };
 
   const handleCalc = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-eval
-    // let answer = eval(`${operand1} ${opr} ${operand2}`)
-    console.log(operand1, opr, operand2)
-    // setDisplay(answer)
-  }
+  };
 
   const handleClear = (e) => {
     e.preventDefault();
-    setDisplay(0)
-  }
+    setDisplay(0);
+  };
 
   return (
     <div className="App">
@@ -54,52 +47,52 @@ function App() {
           <button id="clear" onClick={handleClear}>
             clear
           </button>
-          <button id="divide" className="operator" onClick={handleClick}>
+          <button id="divide" className="operator" onClick={handleOperator}>
             /
           </button>
-          <button id="multiply" className="operator"  onClick={handleClick}>
+          <button id="multiply" className="operator" onClick={handleOperator}>
             *
           </button>
-          <button id="subtract" className="operator"  onClick={handleClick}>
+          <button id="subtract" className="operator" onClick={handleOperator}>
             -
           </button>
-          <button id="add"  className="operator" onClick={handleClick}>
+          <button id="add" className="operator" onClick={handleOperator}>
             +
           </button>
           <button id="equals" onClick={handleCalc}>
             =
           </button>
-          <button id="decimal" onClick={handleClick}>
+          <button id="decimal" onClick={handleNumPress}>
             .
           </button>
-          <button id="one" onClick={handleClick}>
+          <button id="one" onClick={handleNumPress}>
             1
           </button>
-          <button id="two" onClick={handleClick}>
+          <button id="two" onClick={handleNumPress}>
             2
           </button>
-          <button id="three" onClick={handleClick}>
+          <button id="three" onClick={handleNumPress}>
             3
           </button>
-          <button id="four" onClick={handleClick}>
+          <button id="four" onClick={handleNumPress}>
             4
           </button>
-          <button id="five" onClick={handleClick}>
+          <button id="five" onClick={handleNumPress}>
             5
           </button>
-          <button id="six" onClick={handleClick}>
+          <button id="six" onClick={handleNumPress}>
             6
           </button>
-          <button id="seven" onClick={handleClick}>
+          <button id="seven" onClick={handleNumPress}>
             7
           </button>
-          <button id="eight" onClick={handleClick}>
+          <button id="eight" onClick={handleNumPress}>
             8
           </button>
-          <button id="nine" onClick={handleClick}>
+          <button id="nine" onClick={handleNumPress}>
             9
           </button>
-          <button id="zero" onClick={handleClick}>
+          <button id="zero" onClick={handleNumPress}>
             0
           </button>
         </form>
