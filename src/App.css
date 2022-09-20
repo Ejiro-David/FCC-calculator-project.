@@ -15,13 +15,13 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 8px;
-
 }
 
 button{
   width: auto;
   height: 70px;
   max-width: 132px;
+  font-size: 30px;
 }
 #clear{
   order: 0;
@@ -35,3 +35,52 @@ button{
   background-color: rgb(113, 160, 160);
 }
 
+/* reordering of buttons */
+#one{
+  order: 5;
+}
+#two{
+  order: 6;
+}
+#three{
+  order: 7;
+}
+#four{
+  order: 9;
+}
+#five{
+  order: 10;
+}
+#six{
+  order: 11;
+}
+#seven{
+  order: 13;
+}
+#eight{
+  order: 14;
+}
+#nine{
+  order: 15;
+}
+#zero{
+  order: 12;
+}
+#add{
+  order: 1;
+}
+#subtract{
+  order: 2;
+}
+#divide{
+  order: 3;
+}
+#multiply{
+  order: 4;
+}
+#equals{
+  order: 99;
+}
+#decimal{
+  order: 8;
+}
