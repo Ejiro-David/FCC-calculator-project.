@@ -33,6 +33,10 @@ button{
   width: 75%;
   height: 150px;
   background-color: rgb(113, 160, 160);
+  font-size: 50px;
+  text-align: right;
+  padding: 10px;
+
 }
 
 /* reordering of buttons */

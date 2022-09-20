@@ -1,17 +1,22 @@
+import { useState } from "react";
 import "./App.css";
 
 function App() {
 
+  const [display, setDisplay] = useState(0)
+
   const handleClick = (e) => {
     e.preventDefault()
+    let text = e.target.innerText
     console.log(e.target.innerText)
+    setDisplay(display + text)
   }
 
 
   return (
     <div className="App">
       <div className="calc">
-        <div id="display"></div>
+        <div id="display">{display}</div>
         <form className="buttons-container">
           <button id="clear"  onClick={handleClick}>clear</button>
           <button id="divide"  onClick={handleClick}>/</button>
