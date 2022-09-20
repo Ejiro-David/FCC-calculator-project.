@@ -3,15 +3,22 @@ import "./App.css";
 
 function App() {
   const [display, setDisplay] = useState(0);
-  const [operand1, setOperand1] = useState(0);
-  const [operand2, setOperand2] = useState(0);
+  const [operand1, setOperand1] = useState();
+  const [operand2, setOperand2] = useState();
   const [opr, setOpr] = useState('')
 
   const handleClick = (e) => {
     e.preventDefault();
-    let text = e.target.innerText;
+    let text = e.target.innerText;//receive input at handle click
     let operator = e.target.className === 'operator'
     console.log(operator)
+
+    //check state of display to know if input marks the begining of 1st or 2nd opersnd
+    //if state is:
+    // zero begin first operand1, allow one decimal within.
+    // no operand can begin with a sign or multiple zeros
+// if oprt comes in update opr state and begin second operand.
+
     if(display === 0){
       setDisplay(text)
     }else{
