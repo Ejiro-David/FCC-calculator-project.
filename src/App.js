@@ -12,28 +12,23 @@ function App() {
     e.preventDefault();
     let text = e.target.innerText;
     let textClass = e.target.className;
+    //why is the decimal not working?
 
-
-    if(operand1 === null && operator === null && textClass === 'num'){
-      if(display === 0 && text !== '0'){
-        if(text === '.'){
+    if (operand1 === null && operator === null && textClass === "num") {
+      if (display === 0 && text !== "0") {
+        if (text === ".") {
           setDisplay("0.");
-        }else{
-          setDisplay(text)
+        } else {
+          setDisplay(text);
         }
-      }else if(display !== 0){
-        if(text !== '.' || (text === '.' && !display.includes('.'))){
-          setDisplay(display + text)
+      } else if (display !== 0) {
+        if (text !== "." || (text === "." && !display.includes("."))) {
+          setDisplay(display + text);
         }
       }
-    }else if(textClass === 'operator' && operand2 === null){
-
-
+    } else if (textClass === "operator" && operand2 === null) {
     }
-
-
   };
-
 
   const handleCalc = (e) => {
     e.preventDefault();
