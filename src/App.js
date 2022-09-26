@@ -14,17 +14,22 @@ function App() {
     let textClass = e.target.className;
     //why is the decimal not working?
 
-    if (operand1 === null && operator === null && textClass === "num") {
-      if (display === 0 && text !== "0") {
-        if (text === ".") {
-          setDisplay("0.");
-        } else {
-          setDisplay(text);
+    if (operand1 === null && operator === null && textClass !== "operator") {
+      if (display === 0) {
+        if(textClass === 'decimal'){
+          setDisplay('0.')
+          console.log(text)
+        }else if(textClass === 'num' & text !== '0'){
+          setDisplay(text)
         }
       } else if (display !== 0) {
-        if (text !== "." || (text === "." && !display.includes("."))) {
+        setOperand1(display)
+        if ((display.includes(".") && text !== ".") || (text === "." && !display.includes("."))) {
+          setDisplay(display + text);
+        }else if(textClass === 'num'){
           setDisplay(display + text);
         }
+
       }
     } else if (textClass === "operator" && operand2 === null) {
     }
@@ -70,7 +75,7 @@ function App() {
           <button id="equals" className="equals" onClick={handleCalc}>
             =
           </button>
-          <button id="decimal" className="decimal num" onClick={handlePress}>
+          <button id="decimal" className="decimal" onClick={handlePress}>
             .
           </button>
           <button id="one" className="num" onClick={handlePress}>
