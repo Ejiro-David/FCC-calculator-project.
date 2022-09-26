@@ -29,7 +29,6 @@ function App() {
         }else if(textClass === 'num'){
           setDisplay(display + text);
         }
-
       }
     } else if (textClass === "operator" && operand2 === null) {
     }
