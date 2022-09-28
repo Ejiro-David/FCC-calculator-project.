@@ -3,35 +3,42 @@ import "./App.css";
 
 function App() {
   const [display, setDisplay] = useState(0);
-  const [operand1, setOperand1] = useState(null);
-  const [operand2, setOperand2] = useState(null);
-  const [operator, setOperator] = useState(null);
-  const [answer, setAnswer] = useState(null);
+  const [prevOperand, setprevOperand] = useState('');
+  const [currOperand, setcurrOperand] = useState('');
+  const [operator, setOperator] = useState('');
+  const [answer, setAnswer] = useState('');
 
-  const handlePress = (e) => {
+
+  function OperandValidator(input, operand, stateSetter) {
+    console.log('operand validator called')
+    if (operand === "" && input === ".") {
+      stateSetter("0.");
+    } else if (operand === "0" && input === "0") {
+      stateSetter("0");
+    } else if (operand === "0" && input !== "0") {
+      stateSetter(input);
+    } else if (operand !== 0) {
+      stateSetter(operand + input);
+    }
+    console.log(operand)
+    return operand;
+  }
+  const handleNumPress = (e) => {
     e.preventDefault();
+
     let text = e.target.innerText;
     let textClass = e.target.className;
-    //why is the decimal not working?
 
-    if (operand1 === null && operator === null && textClass !== "operator") {
-      if (display === 0) {
-        if(textClass === 'decimal'){
-          setDisplay('0.')
-          console.log(text)
-        }else if(textClass === 'num' & text !== '0'){
-          setDisplay(text)
-        }
-      } else if (display !== 0) {
-        setOperand1(display)
-        if ((display.includes(".") && text !== ".") || (text === "." && !display.includes("."))) {
-          setDisplay(display + text);
-        }else if(textClass === 'num'){
-          setDisplay(display + text);
-        }
-      }
-    } else if (textClass === "operator" && operand2 === null) {
+    if(prevOperand === '' && textClass === ('num' || 'decimal')){
+      OperandValidator(text, prevOperand, setprevOperand);
+      setDisplay(prevOperand);
+      console.log('attempted to set prev operand', prevOperand)
     }
+
+
+
+
+
   };
 
   const handleCalc = (e) => {
@@ -41,8 +48,8 @@ function App() {
   const handleClear = (e) => {
     e.preventDefault();
     setDisplay(0);
-    setOperand1(null);
-    setOperand2(null);
+    setprevOperand(null);
+    setcurrOperand(null);
     setAnswer(null);
     setOperator(null);
   };
@@ -55,56 +62,56 @@ function App() {
           <button id="clear" onClick={handleClear}>
             clear
           </button>
-          <button id="divide" className="operator" onClick={handlePress}>
+          <button id="divide" className="operator" onClick={handleNumPress}>
             /
           </button>
-          <button id="multiply" className="operator" onClick={handlePress}>
+          <button id="multiply" className="operator" onClick={handleNumPress}>
             *
           </button>
           <button
             id="subtract"
             className="operator negative"
-            onClick={handlePress}
+            onClick={handleNumPress}
           >
             -
           </button>
-          <button id="add" className="operator" onClick={handlePress}>
+          <button id="add" className="operator" onClick={handleNumPress}>
             +
           </button>
           <button id="equals" className="equals" onClick={handleCalc}>
             =
           </button>
-          <button id="decimal" className="decimal" onClick={handlePress}>
+          <button id="decimal" className="decimal" onClick={handleNumPress}>
             .
           </button>
-          <button id="one" className="num" onClick={handlePress}>
+          <button id="one" className="num" onClick={handleNumPress}>
             1
           </button>
-          <button id="two" className="num" onClick={handlePress}>
+          <button id="two" className="num" onClick={handleNumPress}>
             2
           </button>
-          <button id="three" className="num" onClick={handlePress}>
+          <button id="three" className="num" onClick={handleNumPress}>
             3
           </button>
-          <button id="four" className="num" onClick={handlePress}>
+          <button id="four" className="num" onClick={handleNumPress}>
             4
           </button>
-          <button id="five" className="num" onClick={handlePress}>
+          <button id="five" className="num" onClick={handleNumPress}>
             5
           </button>
-          <button id="six" className="num" onClick={handlePress}>
+          <button id="six" className="num" onClick={handleNumPress}>
             6
           </button>
-          <button id="seven" className="num" onClick={handlePress}>
+          <button id="seven" className="num" onClick={handleNumPress}>
             7
           </button>
-          <button id="eight" className="num" onClick={handlePress}>
+          <button id="eight" className="num" onClick={handleNumPress}>
             8
           </button>
-          <button id="nine" className="num" onClick={handlePress}>
+          <button id="nine" className="num" onClick={handleNumPress}>
             9
           </button>
-          <button id="zero" className="num" onClick={handlePress}>
+          <button id="zero" className="num" onClick={handleNumPress}>
             0
           </button>
         </form>
