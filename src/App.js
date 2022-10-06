@@ -2,54 +2,61 @@ import { useReducer } from "react";
 import { useState } from "react";
 import "./App.css";
 
-//create reducer for diff types: append, calc, del, 
-const initState = { prevOperand: '', currOperand: '', operator: ''};
+//create reducer for diff types: append, calc, del,
+const initState = {prevOperand: '', currOperand: '', operator: '' }
 
 const ACTIONS = {
   APPEND_DIGIT: "append-digit",
   APPEND_OPERATOR: "append-operator",
-  APPEND_DECIMAL: "append-decimal"
-}
+  APPEND_DECIMAL: "append-decimal",
+  CLEAR: "clear",
+};
 
-function reducer (state, {type, payload}){
-  switch (type){
-    
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case ACTIONS.CLEAR:
+      state.prevOperand = "";
+      state.currOperand = "";
+      state.operator = "";
+      break;
+    default:
+      console.log(type, payload);
   }
 }
 
-
-//initialize useReducer
-
-
 function App() {
-  const [{prevOperand, currOperand, operator}, dispatch] = useReducer(reducer, initState)
-
-
+  const [calcState, dispatch] = useReducer(
+    reducer,
+    initState
+  );
 
   const [display, setDisplay] = useState(0);
 
-
-
   const handleClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let text = e.target.innerHTML;
     let textClass = e.target.className;
     console.log(text, textClass);
-    if(textClass === 'clear'){
-      setDisplay('0')
-      initState.prevOperand = '';
-      initState.currOperand = '';
-      initState.operator = '';
-    }else if(textClass === 'equals' && initState.prevOperand !== '' && initState.currOperand !== '' && initState.operator !== ''){
-      console.log(prevOperand, operator, currOperand)
-    }else{
-      if(textClass === 'operator'){
-        dispatch({type: ACTIONS.APPEND_OPERATOR})
-      }else if(textClass === 'num'){
-        dispatch({type: ACTIONS.APPEND_DIGIT})
-      }else if(textClass === 'decimal'){
-        dispatch({type: ACTIONS.APPEND_DECIMAL})
-      }
+    if (textClass === "clear") {
+      setDisplay("0");
+      dispatch({ type: ACTIONS.CLEAR });
+    }
+    if (textClass === "operator") {
+      dispatch({ type: ACTIONS.APPEND_OPERATOR, payload: text });
+    }
+    if (textClass === "num") {
+      dispatch({ type: ACTIONS.APPEND_DIGIT, payload: text });
+    }
+    if (textClass === "decimal") {
+      dispatch({ type: ACTIONS.APPEND_DECIMAL, payload: text });
+    } else if (
+      textClass === "equals" &&
+      calcState.prevOperand !== "" &&
+      calcState.currOperand !== "" &&
+      calcState.operator !== ""
+    ) {
+      console.log(calcState.prevOperand, calcState.operator, calcState.currOperand);
+    } else {
     }
   };
 
