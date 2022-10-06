@@ -9,22 +9,24 @@ const ACTIONS = {
   APPEND_DIGIT: "append-digit",
   APPEND_OPERATOR: "append-operator",
   APPEND_DECIMAL: "append-decimal",
-  CLEAR: "clear",
 };
 
 function reducer(state, { type, payload }) {
   switch (type) {
-    case ACTIONS.CLEAR:
-      state.prevOperand = "";
-      state.currOperand = "";
-      state.operator = "";
+    case ACTIONS.APPEND_DIGIT:
+      return {...state, currOperand : state.currOperand + payload}
+    case ACTIONS.APPEND_DECIMAL:
+      break;
+    case ACTIONS.APPEND_OPERATOR:
       break;
     default:
       console.log(type, payload);
   }
 }
+// IMPLEMENT 'CLEAR' 
 
 function App() {
+  
   const [calcState, dispatch] = useReducer(
     reducer,
     initState
@@ -34,12 +36,12 @@ function App() {
 
   const handleClick = (e) => {
     e.preventDefault();
+    console.log(calcState)
     let text = e.target.innerHTML;
     let textClass = e.target.className;
     console.log(text, textClass);
     if (textClass === "clear") {
       setDisplay("0");
-      dispatch({ type: ACTIONS.CLEAR });
     }
     if (textClass === "operator") {
       dispatch({ type: ACTIONS.APPEND_OPERATOR, payload: text });
