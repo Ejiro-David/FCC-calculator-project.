@@ -3,29 +3,54 @@ import { useState } from "react";
 import "./App.css";
 
 //create reducer for diff types: append, calc, del, 
-const initialState = {};
+const initState = { prevOperand: '', currOperand: '', operator: ''};
 
-function reducer (state, action){
-  switch (action.type){
+const ACTIONS = {
+  APPEND_DIGIT: "append-digit",
+  APPEND_OPERATOR: "append-operator",
+  APPEND_DECIMAL: "append-decimal"
+}
+
+function reducer (state, {type, payload}){
+  switch (type){
     
   }
 }
 
 
+//initialize useReducer
 
 
 function App() {
+  const [{prevOperand, currOperand, operator}, dispatch] = useReducer(reducer, initState)
+
+
+
   const [display, setDisplay] = useState(0);
-  const [prevOperand, setPrevOperand] = useState(null);
-  const [currOperand, setCurrOperand] = useState(null)
-  const [operator, setOperator] = useState(null);
+
 
 
   const handleClick = (e) => {
     e.preventDefault()
     let text = e.target.innerHTML;
     let textClass = e.target.className;
-    console.log(text, textClass)
+    console.log(text, textClass);
+    if(textClass === 'clear'){
+      setDisplay('0')
+      initState.prevOperand = '';
+      initState.currOperand = '';
+      initState.operator = '';
+    }else if(textClass === 'equals' && initState.prevOperand !== '' && initState.currOperand !== '' && initState.operator !== ''){
+      console.log(prevOperand, operator, currOperand)
+    }else{
+      if(textClass === 'operator'){
+        dispatch({type: ACTIONS.APPEND_OPERATOR})
+      }else if(textClass === 'num'){
+        dispatch({type: ACTIONS.APPEND_DIGIT})
+      }else if(textClass === 'decimal'){
+        dispatch({type: ACTIONS.APPEND_DECIMAL})
+      }
+    }
   };
 
   return (
@@ -33,7 +58,7 @@ function App() {
       <div className="calc">
         <div id="display">{display}</div>
         <form className="buttons-container">
-          <button id="clear" onClick={handleClick}>
+          <button id="clear" className="clear" onClick={handleClick}>
             clear
           </button>
           <button id="divide" className="operator" onClick={handleClick}>
