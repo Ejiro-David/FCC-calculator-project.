@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./App.css";
 
 //create reducer for diff types: append, calc, del,
-const initState = {prevOperand: '', currOperand: '', operator: '' }
+const initState = { prevOperand: "", currOperand: "", operator: "" };
 
 const ACTIONS = {
   APPEND_DIGIT: "append-digit",
@@ -14,7 +14,7 @@ const ACTIONS = {
 function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.APPEND_DIGIT:
-      return {...state, currOperand : state.currOperand + payload}
+      return { ...state, currOperand: state.currOperand + payload };
     case ACTIONS.APPEND_DECIMAL:
       break;
     case ACTIONS.APPEND_OPERATOR:
@@ -23,50 +23,38 @@ function reducer(state, { type, payload }) {
       console.log(type, payload);
   }
 }
-// IMPLEMENT 'CLEAR' 
+// IMPLEMENT 'CLEAR'
 
 function App() {
-  
-  const [calcState, dispatch] = useReducer(
-    reducer,
-    initState
-  );
-
+  // checks calc state and processes neccessary oprs
+  const [calcState, dispatch] = useReducer(reducer, initState);
+  //constrols display
   const [display, setDisplay] = useState(0);
 
   const handleClick = (e) => {
+    // prevents refresh on button press
     e.preventDefault();
-    console.log(calcState)
+    console.log(calcState);
     let text = e.target.innerHTML;
-    let textClass = e.target.className;
-    console.log(text, textClass);
-    if (textClass === "clear") {
-      setDisplay("0");
-    }
-    if (textClass === "operator") {
-      dispatch({ type: ACTIONS.APPEND_OPERATOR, payload: text });
-    }
-    if (textClass === "num") {
-      dispatch({ type: ACTIONS.APPEND_DIGIT, payload: text });
-    }
-    if (textClass === "decimal") {
-      dispatch({ type: ACTIONS.APPEND_DECIMAL, payload: text });
-    } else if (
-      textClass === "equals" &&
-      calcState.prevOperand !== "" &&
-      calcState.currOperand !== "" &&
-      calcState.operator !== ""
-    ) {
-      console.log(calcState.prevOperand, calcState.operator, calcState.currOperand);
+    console.log(text);
+    if (text === "clear") {
+      setDisplay(0);
     } else {
+      if (display === 0) {
+        setDisplay(text);
+      }else{
+        setDisplay(display + text)
+      }
     }
   };
 
   return (
     <div className="App">
       <div className="calc">
+        {/* display state */}
         <div id="display">{display}</div>
         <form className="buttons-container">
+          {/* each button controlled by a handclick function and it's classname/id */}
           <button id="clear" className="clear" onClick={handleClick}>
             clear
           </button>
