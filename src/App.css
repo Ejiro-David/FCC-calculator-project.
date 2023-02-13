@@ -1,7 +1,11 @@
+body{
+  background-color: black;
+}
+
 .App{
   display: flex;
   flex-direction: column;
-
+  background-color: black;
 }
 .calc {
   display: flex;
