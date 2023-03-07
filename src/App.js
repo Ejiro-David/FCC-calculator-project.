@@ -47,19 +47,23 @@ function App() {
     }
   };
 
-  //   RULES FOR NUM VALIDATOR
-  // -cannot begin with dot
-  // -can only contain one dot
-  // -cannot have trailing zeros
-  // -only one zero allowed before a dot
+
   // -a sign or clear terminates funtion call/validation
+
+  // all console logs are tests.
+  // this functions makes sure the integer inputted can be operated , i.e is calculable.
   const numberValidator = (text, kind) => {
+    // text and kind, number validator recieves inputed text and its class
     console.log('display is a  ',typeof display, 'text is a  ',typeof text)
     console.log(display, ' vs ',  text)
+
+    // decimal point validator, to make sure not more than one decimal per integer
     if(text === '.' && display.includes('.') === false){
       setDisplay(display + text)
       console.log('check 4')
     }
+
+    // removes trailing zeros at the beginning of int and replaces it with inputed num
     else if('0' === display){
       if(text === '0'){
         setDisplay(text)
@@ -68,6 +72,8 @@ function App() {
         setDisplay(text)
         console.log('check 2')
       }
+
+    // appends inputted num
     }else if(display !== '0'){
       if(kind === 'num'){
         setDisplay(display + text)
