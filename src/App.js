@@ -9,6 +9,7 @@ const ACTIONS = {
   APPEND_DIGIT: "append-digit",
   APPEND_OPERATOR: "append-operator",
   APPEND_DECIMAL: "append-decimal",
+  CALC: "solve",
 };
 
 function reducer(state, { type, payload }) {
@@ -18,6 +19,8 @@ function reducer(state, { type, payload }) {
     case ACTIONS.APPEND_DECIMAL:
       break;
     case ACTIONS.APPEND_OPERATOR:
+      break;
+    case ACTIONS.CALC:
       break;
     default:
       console.log(type, payload);
@@ -29,25 +32,54 @@ function App() {
   // checks calc state and processes neccessary oprs
   const [calcState, dispatch] = useReducer(reducer, initState);
   //constrols display
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState('0');
 
   const handleClick = (e) => {
     // prevents refresh on button press
     e.preventDefault();
-    console.log(calcState);
-    let text = e.target.innerHTML;
-    console.log(text);
+    let text = e.target.innerHTML.toString();
+    let textClass = e.target.className;
+
     if (text === "clear") {
-      setDisplay(0);
+      setDisplay('0');
     } else {
-      if (display === 0) {
-        setDisplay(text);
-      }else{
-        setDisplay(display + text)
-      }
+      numberValidator(text, textClass);
     }
   };
 
+  //   RULES FOR NUM VALIDATOR
+  // -cannot begin with dot
+  // -can only contain one dot
+  // -cannot have trailing zeros
+  // -only one zero allowed before a dot
+  // -a sign or clear terminates funtion call/validation
+  const numberValidator = (text, kind) => {
+    console.log('display is a  ',typeof display, 'text is a  ',typeof text)
+    console.log(display, ' vs ',  text)
+    if(text === '.' && display.includes('.') === false){
+      setDisplay(display + text)
+      console.log('check 4')
+    }
+    else if('0' === display){
+      if(text === '0'){
+        setDisplay(text)
+        console.log('check 1')
+      }else if(text !== '0' && kind === 'num'){
+        setDisplay(text)
+        console.log('check 2')
+      }
+    }else if(display !== '0'){
+      if(kind === 'num'){
+        setDisplay(display + text)
+        console.log('check 3')
+      }
+    }
+    else{
+
+    }
+  };
+  console.log(display);
+  console.log(display.toString().includes("."));
   return (
     <div className="App">
       <div className="calc">

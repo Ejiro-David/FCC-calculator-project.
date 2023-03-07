@@ -11,7 +11,13 @@ recieve input at handle click
 reconfigure eslint to make code more spaceous and neat.
 
 
-
+RULES FOR NUM VALIDATOR
+-cannot begin with dot
+-can only contain one dot
+-cannot have trailing zeros
+-only one zero allowed before a dot
+-a sign or clear terminates funtion call/validation
+-
 
 
 
