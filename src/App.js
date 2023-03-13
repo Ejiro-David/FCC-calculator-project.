@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./App.css";
 
 //create reducer for diff types: append, calc, del,
-const initState = { operand: "", nextOperand: "", operator: "", result: ""};
 
 
 //refactor to use redux after you actually learn redux
@@ -36,6 +35,10 @@ function App() {
 
   //constrols display
   const [display, setDisplay] = useState('0');
+  const [operand, setOperand] = useState('0')
+  const [operator, setOperator] = useState('0')
+  const [nextOperand, setNextOperand] = useState('0')
+  const [result, setResult] = useState('0')
 
   const handleClick = (e) => {
     // prevents refresh on button press
@@ -46,11 +49,64 @@ function App() {
 
     if (text === "clear") {
       setDisplay('0');
+      setNextOperand('0')
+      setOperand('0')
+      setOperator('0')
     } else if(textClass === 'num') {
       numberValidator(text, textId);
-
+    } else if(textClass === 'operator') {
+      solver(text, textId)
     }
   };
+
+
+
+
+const solver = (text, id) => {
+  console.log(text)
+  console.log(display)
+  if(display === '0'){
+
+  }else{
+    if(nextOperand === '0'){
+      console.log('check 1')
+      setOperand(display)
+      setOperator(text)
+      setDisplay(operand + operator)
+    }else{
+      console.log('check 2')
+      setResult(eval(setOperand, setOperator, nextOperand))
+      setOperand(result)
+      setDisplay(result)
+      setResult()
+      setNextOperand()
+    }
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // -a sign or clear terminates funtion call/validation
@@ -61,36 +117,31 @@ function App() {
     // text and kind, number validator recieves inputed text and its class
     // console.log('display is a  ',typeof display, 'text is a  ',typeof text)
     // console.log(display, ' vs ',  text)
-    console.log(id)
     // decimal point validator, to make sure not more than one decimal per integer
     if(text === '.' && display.includes('.') === false){
       setDisplay(display + text)
-      console.log('check 4')
     }
 
     // removes trailing zeros at the beginning of int and replaces it with inputed num
     else if('0' === display){
       if(text === '0'){
         setDisplay(text)
-        console.log('check 1')
       }else if(text !== '0' && id !== 'decimal'){
         setDisplay(text)
-        console.log('check 2')
       }
 
     // appends inputted num
     }else if(display !== '0'){
       if(id !== 'decimal'){
         setDisplay(display + text)
-        console.log('check 3')
       }
     }
     else{
 
     }
   };
-  console.log(display);
-  console.log(display.toString().includes("."));
+  // console.log(display);
+  // console.log(display.toString().includes("."));
   return (
     <div className="App">
       <div className="calc">
@@ -109,7 +160,7 @@ function App() {
           </button>
           <button
             id="subtract"
-            className="operator negative"
+            className="operator"
             onClick={handleClick}
           >
             -

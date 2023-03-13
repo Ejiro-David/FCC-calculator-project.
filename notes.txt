@@ -20,6 +20,9 @@ RULES FOR NUM VALIDATOR
 -
 
 
+TODO Next: Track down the 00 bug.
+
+
 
 
 
