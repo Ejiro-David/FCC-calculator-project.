@@ -1,36 +1,39 @@
-import { useReducer } from "react";
+// import { useReducer } from "react";
 import { useState } from "react";
 import "./App.css";
 
 //create reducer for diff types: append, calc, del,
-const initState = { prevOperand: "", currOperand: "", operator: "" };
+const initState = { operand: "", nextOperand: "", operator: "", result: ""};
 
-const ACTIONS = {
-  APPEND_DIGIT: "append-digit",
-  APPEND_OPERATOR: "append-operator",
-  APPEND_DECIMAL: "append-decimal",
-  CALC: "solve",
-};
 
-function reducer(state, { type, payload }) {
-  switch (type) {
-    case ACTIONS.APPEND_DIGIT:
-      return { ...state, currOperand: state.currOperand + payload };
-    case ACTIONS.APPEND_DECIMAL:
-      break;
-    case ACTIONS.APPEND_OPERATOR:
-      break;
-    case ACTIONS.CALC:
-      break;
-    default:
-      console.log(type, payload);
-  }
-}
+//refactor to use redux after you actually learn redux
+// const ACTIONS = {
+//   SET_OPERAND_OPERATOR: "set-operand-operator",
+//   SET_NEXTOPERAND_CALC: "set-nextoperand-calc",
+//   CLEAR: 'clear'
+// };
+
+// function reducer(state, { type, payload }) {
+//   switch (type) {
+//     case ACTIONS.SET_OPERAND_OPERATOR:
+//       return { ...state, nextOperand: state.nextOperand + payload };
+//     case ACTIONS.SET_NEXTOPERAND_CALC:
+//       break;
+//     case ACTIONS.CLEAR:
+//       break;
+//     default:
+//       console.log(type, payload);
+//   }
+// }
 // IMPLEMENT 'CLEAR'
 
 function App() {
+
+
   // checks calc state and processes neccessary oprs
-  const [calcState, dispatch] = useReducer(reducer, initState);
+  // const [calcState, dispatch] = useReducer(reducer, initState);
+
+
   //constrols display
   const [display, setDisplay] = useState('0');
 
@@ -115,7 +118,7 @@ function App() {
           <button id="equals" className="equals" onClick={handleClick}>
             =
           </button>
-          <button id="decimal" className="decimal" onClick={handleClick}>
+          <button id="decimal" className="decimal num" onClick={handleClick}>
             .
           </button>
           <button id="one" className="num" onClick={handleClick}>
