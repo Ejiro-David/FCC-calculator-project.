@@ -42,11 +42,13 @@ function App() {
     e.preventDefault();
     let text = e.target.innerHTML.toString();
     let textClass = e.target.className;
+    let textId = e.target.id
 
     if (text === "clear") {
       setDisplay('0');
-    } else {
-      numberValidator(text, textClass);
+    } else if(textClass === 'num') {
+      numberValidator(text, textId);
+
     }
   };
 
@@ -55,11 +57,11 @@ function App() {
 
   // all console logs are tests.
   // this functions makes sure the integer inputted can be operated , i.e is calculable.
-  const numberValidator = (text, kind) => {
+  const numberValidator = (text, id) => {
     // text and kind, number validator recieves inputed text and its class
-    console.log('display is a  ',typeof display, 'text is a  ',typeof text)
-    console.log(display, ' vs ',  text)
-
+    // console.log('display is a  ',typeof display, 'text is a  ',typeof text)
+    // console.log(display, ' vs ',  text)
+    console.log(id)
     // decimal point validator, to make sure not more than one decimal per integer
     if(text === '.' && display.includes('.') === false){
       setDisplay(display + text)
@@ -71,14 +73,14 @@ function App() {
       if(text === '0'){
         setDisplay(text)
         console.log('check 1')
-      }else if(text !== '0' && kind === 'num'){
+      }else if(text !== '0' && id !== 'decimal'){
         setDisplay(text)
         console.log('check 2')
       }
 
     // appends inputted num
     }else if(display !== '0'){
-      if(kind === 'num'){
+      if(id !== 'decimal'){
         setDisplay(display + text)
         console.log('check 3')
       }
@@ -115,10 +117,10 @@ function App() {
           <button id="add" className="operator" onClick={handleClick}>
             +
           </button>
-          <button id="equals" className="equals" onClick={handleClick}>
+          <button id="equals" className="operator" onClick={handleClick}>
             =
           </button>
-          <button id="decimal" className="decimal num" onClick={handleClick}>
+          <button id="decimal" className="num" onClick={handleClick}>
             .
           </button>
           <button id="one" className="num" onClick={handleClick}>
