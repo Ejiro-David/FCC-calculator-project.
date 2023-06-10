@@ -17,13 +17,37 @@ RULES FOR NUM VALIDATOR
 -cannot have trailing zeros
 -only one zero allowed before a dot
 -a sign or clear terminates funtion call/validation
--
+
 
 
 TODO Next: Track down the 00 bug.
 
 
+RULES FOR CALC OPERATIONS
+-simple calculations ending with = should produce accurate answers
+-negative numbers should be operatable 
+-
 
+
+
+
+
+
+-if operator is not running as 'equals to'...ie if term2 is null
+set operator to the pressed operator sign, update display.
+
+-if term 1 is null, term 2 must be null
+
+-if term 1 is null and operator is pressed, set term1 to 0 
+and sign to current pressed opr, update display. 
+
+-if num is on state and display and sign is pressed
+update term1 to num and update sign to curr pressed operator
+
+-if operator is set and num is on state and opr is pressed 
+update term2, display and init 'equals'
+
+-display computation and update as term1
 
 
   
