@@ -1,155 +1,128 @@
-// import { useReducer } from "react";
-import { useState } from "react";
+import { useReducer } from "react";
+// import { useState } from "react";
 import "./App.css";
 
-//create reducer for diff types: append, calc, del,
-
-//refactor to use redux after you actually learn redux
-// const ACTIONS = {
-//   SET_OPERAND_OPERATOR: "set-operand-operator",
-//   SET_term2_CALC: "set-term2-calc",
-//   CLEAR: 'clear'
-// };
-
-// function reducer(state, { type, payload }) {
-//   switch (type) {
-//     case ACTIONS.SET_OPERAND_OPERATOR:
-//       return { ...state, term2: state.term2 + payload };
-//     case ACTIONS.SET_term2_CALC:
-//       break;
-//     case ACTIONS.CLEAR:
-//       break;
-//     default:
-//       console.log(type, payload);
-//   }
-// }
-// IMPLEMENT 'CLEAR'
-
 function App() {
-  // checks calc state and processes neccessary oprs
-  // const [calcState, dispatch] = useReducer(reducer, initState);
+  const initialState = {
+    term1: "",
+    term2: "",
+    operator: "",
+    display: "0",
+    result: "",
+  };
+  const [allState, dispatch] = useReducer(computationReducer, initialState);
 
-  //constrols display
-  const [display, setDisplay] = useState("0");
-  const [term1, setTerm1] = useState("0");
-  const [operator, setOperator] = useState();
-  const [term2, setTerm2] = useState('');
-  const [result, setResult] = useState('');
-
-  const handleClick = (e) => {
-    // prevents refresh on button press
+  function computationReducer(allState, action) {
+    if (action.type === "append") {
+      console.log("num is pressed");
+      return {
+        ...allState,
+        term1: allState.term1 === "" ? action.num : allState.term1 + action.num,
+        display:
+          allState.term1 === "" ? action.num : allState.display + action.num,
+      };
+    } else if (action.type === "delete") {
+      console.log("clear");
+      return {
+        term1: "",
+        term2: "",
+        operator: "",
+        display: "0",
+        result: "",
+      };
+    }
+  }
+  const handleNumPress = (e) => {
     e.preventDefault();
     let text = e.target.innerHTML.toString();
-    let textClass = e.target.className;
-    let textId = e.target.id;
-
-    if (text === "clear") {
-      setTerm2();
-      setTerm1('0');
-      setOperator();
-      setDisplay("0");
-    } else if (textClass === "num") {
-      numberValidator(text, textId);
-    } else if (textClass === "operator") {
-      solver(text, textId);
-    }
+    dispatch({
+      type: "append",
+      num: text,
+    });
   };
 
-  const solver = (text, id) => {
-    // console.log(text, id);
-    setTerm1(display)
-    if(term2 === ''){
-      setOperator(text)
-      setDisplay(display + text)
-      // console.log(term1, operator, term2) BUG: state does not update to reflect new term1
-    }
+  const handleSignPress = (e) => {
+    e.preventDefault();
+    let text = e.target.innerHTML.toString();
 
+    dispatch({
+      type: "operator",
+      num: text,
+    });
   };
 
-  
-  // this functions makes sure the integer inputted can be operated , i.e is calculable.
-  const numberValidator = (text, id) => {
-    // text and kind, number validator recieves inputed text and its class
-    // console.log('display is a  ',typeof display, 'text is a  ',typeof text)
-    // console.log(display, ' vs ',  text)
-    // decimal point validator, to make sure not more than one decimal per integer
-    if (text === "." && display.includes(".") === false) {
-      setDisplay(display + text);
-    }
+  const handleCompute = (e) => {
+    e.preventDefault();
 
-    // removes trailing zeros at the beginning of int and replaces it with inputed num
-    else if ("0" === display) {
-      if (text === "0") {
-        setDisplay(text);
-      } else if (text !== "0" && id !== "decimal") {
-        setDisplay(text);
-      }
+    dispatch({
+      type: "computation",
+    });
+  };
 
-      // appends inputted num
-    } else if (display !== "0") {
-      if (id !== "decimal") {
-        setDisplay(display + text);
-      }
-    } else {
-    }
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    dispatch({
+      type: "delete",
+    });
   };
 
   return (
     <div className="App">
       <div className="calc">
         {/* display state */}
-        <div id="display">{display}</div>
+        <div id="display">{allState.display}</div>
         <form className="buttons-container">
           {/* each button controlled by a handclick function and it's classname/id */}
-          <button id="clear" className="clear" onClick={handleClick}>
+          <button id="clear" className="clear" onClick={handleDelete}>
             clear
           </button>
-          <button id="divide" className="operator" onClick={handleClick}>
+          <button id="divide" className="operator" onClick={handleSignPress}>
             /
           </button>
-          <button id="multiply" className="operator" onClick={handleClick}>
+          <button id="multiply" className="operator" onClick={handleSignPress}>
             *
           </button>
-          <button id="subtract" className="operator" onClick={handleClick}>
+          <button id="subtract" className="operator" onClick={handleSignPress}>
             -
           </button>
-          <button id="add" className="operator" onClick={handleClick}>
+          <button id="add" className="operator" onClick={handleSignPress}>
             +
           </button>
-          <button id="equals" className="operator" onClick={handleClick}>
+          <button id="equals" className="operator" onClick={handleCompute}>
             =
           </button>
-          <button id="decimal" className="num" onClick={handleClick}>
+          <button id="decimal" className="num" onClick={handleNumPress}>
             .
           </button>
-          <button id="one" className="num" onClick={handleClick}>
+          <button id="one" className="num" onClick={handleNumPress}>
             1
           </button>
-          <button id="two" className="num" onClick={handleClick}>
+          <button id="two" className="num" onClick={handleNumPress}>
             2
           </button>
-          <button id="three" className="num" onClick={handleClick}>
+          <button id="three" className="num" onClick={handleNumPress}>
             3
           </button>
-          <button id="four" className="num" onClick={handleClick}>
+          <button id="four" className="num" onClick={handleNumPress}>
             4
           </button>
-          <button id="five" className="num" onClick={handleClick}>
+          <button id="five" className="num" onClick={handleNumPress}>
             5
           </button>
-          <button id="six" className="num" onClick={handleClick}>
+          <button id="six" className="num" onClick={handleNumPress}>
             6
           </button>
-          <button id="seven" className="num" onClick={handleClick}>
+          <button id="seven" className="num" onClick={handleNumPress}>
             7
           </button>
-          <button id="eight" className="num" onClick={handleClick}>
+          <button id="eight" className="num" onClick={handleNumPress}>
             8
           </button>
-          <button id="nine" className="num" onClick={handleClick}>
+          <button id="nine" className="num" onClick={handleNumPress}>
             9
           </button>
-          <button id="zero" className="num" onClick={handleClick}>
+          <button id="zero" className="num" onClick={handleNumPress}>
             0
           </button>
         </form>
