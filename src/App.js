@@ -11,20 +11,35 @@ function App() {
     result: "",
   };
   const [allState, dispatch] = useReducer(computationReducer, initialState);
-  
-  
+
   function computationReducer(allState, action) {
-    const numberValidator = () => {
-      
-      return 'x'
-    }
     if (action.type === "append") {
-      console.log("num is pressed", allState);
-      const nextNum = numberValidator()
+      // console.log("num is pressed", allState);
+
+      function numberValidator(numToAppend, currNumber) {
+        if ((currNumber === "" || currNumber === "0") && numToAppend === "0") {
+          return "0";
+        } else if (
+          (currNumber === "" || currNumber === "0") &&
+          numToAppend === "."
+        ) {
+          return "0.";
+        } else if (currNumber.includes(".") && numToAppend === ".") {
+          return currNumber;
+        } else if (
+          currNumber === "0" &&
+          numToAppend !== "0" &&
+          numToAppend !== "."
+        ) {
+          return numToAppend;
+        } else {
+          return currNumber + numToAppend;
+        }
+      }
       return {
         ...allState,
-        term1: nextNum,
-        display: allState.term1 === "" ? action.num : allState.display + action.num,
+        term1: numberValidator(action.num,  allState.term1),
+        display: numberValidator(action.num, allState.term1),
       };
     } else if (action.type === "delete") {
       console.log("clear");
@@ -35,6 +50,29 @@ function App() {
         display: "0",
         result: "",
       };
+    }else if(action.type === "operator"){
+      if(allState.term1 === ''){
+        if(action.sign === '='){
+          return{
+            ...allState,
+            display: '0'
+          }
+        }
+        return {
+          ...allState,
+          term1: '0',
+          operator: action.sign,
+          display: '0' + action.sign
+        }
+      }else if(allState.term1 !== '' && allState.operator === ''){
+        return {
+          ...allState,
+          operator: action.sign,
+          display: allState.display + action.sign
+        }
+      }else if(allState.operator !== ''){
+
+      }
     }
   }
   const handleNumPress = (e) => {
@@ -52,15 +90,7 @@ function App() {
 
     dispatch({
       type: "operator",
-      num: text,
-    });
-  };
-
-  const handleCompute = (e) => {
-    e.preventDefault();
-
-    dispatch({
-      type: "computation",
+      sign: text,
     });
   };
 
@@ -94,7 +124,7 @@ function App() {
           <button id="add" className="operator" onClick={handleSignPress}>
             +
           </button>
-          <button id="equals" className="operator" onClick={handleCompute}>
+          <button id="equals" className="operator" onClick={handleSignPress}>
             =
           </button>
           <button id="decimal" className="num" onClick={handleNumPress}>
