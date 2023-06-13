@@ -11,15 +11,20 @@ function App() {
     result: "",
   };
   const [allState, dispatch] = useReducer(computationReducer, initialState);
-
+  
+  
   function computationReducer(allState, action) {
+    const numberValidator = () => {
+      
+      return 'x'
+    }
     if (action.type === "append") {
-      console.log("num is pressed");
+      console.log("num is pressed", allState);
+      const nextNum = numberValidator()
       return {
         ...allState,
-        term1: allState.term1 === "" ? action.num : allState.term1 + action.num,
-        display:
-          allState.term1 === "" ? action.num : allState.display + action.num,
+        term1: nextNum,
+        display: allState.term1 === "" ? action.num : allState.display + action.num,
       };
     } else if (action.type === "delete") {
       console.log("clear");

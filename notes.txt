@@ -15,3 +15,4 @@ RULES FOR NUM VALIDATOR
 
 
 
+allState.term1 === "" ? action.num : allState.term1 + action.num
