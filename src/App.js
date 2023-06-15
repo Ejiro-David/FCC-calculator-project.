@@ -3,7 +3,6 @@ import { useEffect, useReducer } from "react";
 import "./App.css";
 
 function App() {
-  
   function numberValidator(numToAppend, currNumber) {
     if ((currNumber === "" || currNumber === "0") && numToAppend === "0") {
       return "0";
@@ -25,7 +24,6 @@ function App() {
     }
   }
 
-
   const initialState = {
     term1: "",
     term2: "",
@@ -33,26 +31,30 @@ function App() {
     display: "0",
     result: "",
   };
-  
+
   const [allState, dispatch] = useReducer(computationReducer, initialState);
-  
-    useEffect(() => {
-      // console.log('effect triggered', allState)
-      document.getElementById("display").innerText = allState.display;
-    }, [allState.display]);
-  
+
+  useEffect(() => {
+    console.log('prev disp: ', allState.display, 'opr: ',  allState.operator, 'to add(term2): ', allState.term2 )
+    document.getElementById("display").innerText = allState.display;
+  }, [allState.display, allState.term2, allState.operator]);
+
   function computationReducer(allState, action) {
-
     if (action.type === "append") {
-      // console.log("num is pressed: ", action.num, allState);
-
-      return {
+      if(allState.operator === ''){
+        return {
         ...allState,
-        term1:  numberValidator(action.num, allState.term1),
-        display:  numberValidator(action.num, allState.term1)
+        term1: numberValidator(action.num, allState.term1),
+        display: numberValidator(action.num, allState.term1),
       };
+      }else{
+        return {
+          ...allState,
+          term2: numberValidator(action.num, allState.term2),
+          display: allState.display + numberValidator(action.num, allState.term2),
+        };
+      }
     } else if (action.type === "delete") {
-      console.log("clear", allState);
       return {
         term1: "",
         term2: "",
@@ -60,12 +62,12 @@ function App() {
         display: "0",
         result: "",
       };
-    }else if(action.type === 'operator'){
+    } else if (action.type === "operator") {
       return {
         ...allState,
         operator: action.sign,
-        display: allState.term1 + action.sign
-      }
+        display: allState.term1 + action.sign,
+      };
     }
   }
   const handleNumPress = (e) => {
