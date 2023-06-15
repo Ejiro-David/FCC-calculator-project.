@@ -11,10 +11,11 @@ function App() {
     result: "",
   };
   const [allState, dispatch] = useReducer(computationReducer, initialState);
-
+  
   function computationReducer(allState, action) {
     if (action.type === "append") {
-      // console.log("num is pressed", allState);
+      console.log("num is pressed", allState);
+      var nextNum = numberValidator(action.num, allState.term1);
 
       function numberValidator(numToAppend, currNumber) {
         if ((currNumber === "" || currNumber === "0") && numToAppend === "0") {
@@ -38,12 +39,13 @@ function App() {
       }
       return {
         ...allState,
-        term1: numberValidator(action.num,  allState.term1),
-        display: numberValidator(action.num, allState.term1),
+        term1: nextNum,
+        display: nextNum,
       };
     } else if (action.type === "delete") {
-      console.log("clear");
+      console.log("clear", allState);
       return {
+        ...allState,
         term1: "",
         term2: "",
         operator: "",
@@ -68,10 +70,10 @@ function App() {
         return {
           ...allState,
           operator: action.sign,
-          display: allState.display + action.sign
+          display: allState.term1 + action.sign
         }
       }else if(allState.operator !== ''){
-
+        
       }
     }
   }
