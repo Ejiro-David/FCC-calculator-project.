@@ -1,8 +1,31 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 // import { useState } from "react";
 import "./App.css";
 
 function App() {
+  
+  function numberValidator(numToAppend, currNumber) {
+    if ((currNumber === "" || currNumber === "0") && numToAppend === "0") {
+      return "0";
+    } else if (
+      (currNumber === "" || currNumber === "0") &&
+      numToAppend === "."
+    ) {
+      return "0.";
+    } else if (currNumber.includes(".") && numToAppend === ".") {
+      return currNumber;
+    } else if (
+      currNumber === "0" &&
+      numToAppend !== "0" &&
+      numToAppend !== "."
+    ) {
+      return numToAppend;
+    } else {
+      return currNumber + numToAppend;
+    }
+  }
+
+
   const initialState = {
     term1: "",
     term2: "",
@@ -10,70 +33,38 @@ function App() {
     display: "0",
     result: "",
   };
+  
   const [allState, dispatch] = useReducer(computationReducer, initialState);
   
+    useEffect(() => {
+      // console.log('effect triggered', allState)
+      document.getElementById("display").innerText = allState.display;
+    }, [allState.display]);
+  
   function computationReducer(allState, action) {
-    if (action.type === "append") {
-      console.log("num is pressed", allState);
-      var nextNum = numberValidator(action.num, allState.term1);
 
-      function numberValidator(numToAppend, currNumber) {
-        if ((currNumber === "" || currNumber === "0") && numToAppend === "0") {
-          return "0";
-        } else if (
-          (currNumber === "" || currNumber === "0") &&
-          numToAppend === "."
-        ) {
-          return "0.";
-        } else if (currNumber.includes(".") && numToAppend === ".") {
-          return currNumber;
-        } else if (
-          currNumber === "0" &&
-          numToAppend !== "0" &&
-          numToAppend !== "."
-        ) {
-          return numToAppend;
-        } else {
-          return currNumber + numToAppend;
-        }
-      }
+    if (action.type === "append") {
+      // console.log("num is pressed: ", action.num, allState);
+
       return {
         ...allState,
-        term1: nextNum,
-        display: nextNum,
+        term1:  numberValidator(action.num, allState.term1),
+        display:  numberValidator(action.num, allState.term1)
       };
     } else if (action.type === "delete") {
       console.log("clear", allState);
       return {
-        ...allState,
         term1: "",
         term2: "",
         operator: "",
         display: "0",
         result: "",
       };
-    }else if(action.type === "operator"){
-      if(allState.term1 === ''){
-        if(action.sign === '='){
-          return{
-            ...allState,
-            display: '0'
-          }
-        }
-        return {
-          ...allState,
-          term1: '0',
-          operator: action.sign,
-          display: '0' + action.sign
-        }
-      }else if(allState.term1 !== '' && allState.operator === ''){
-        return {
-          ...allState,
-          operator: action.sign,
-          display: allState.term1 + action.sign
-        }
-      }else if(allState.operator !== ''){
-        
+    }else if(action.type === 'operator'){
+      return {
+        ...allState,
+        operator: action.sign,
+        display: allState.term1 + action.sign
       }
     }
   }
@@ -107,8 +98,7 @@ function App() {
   return (
     <div className="App">
       <div className="calc">
-        {/* display state */}
-        <div id="display">{allState.display}</div>
+        <div id="display">{initialState.display}</div>
         <form className="buttons-container">
           {/* each button controlled by a handclick function and it's classname/id */}
           <button id="clear" className="clear" onClick={handleDelete}>
