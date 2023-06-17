@@ -35,9 +35,10 @@ function App() {
   const [allState, dispatch] = useReducer(computationReducer, initialState);
 
   useEffect(() => {
-    console.log('prev disp: ', allState.display, 'opr: ',  allState.operator, 'to add(term2): ', allState.term2 )
+    console.log(allState)
     document.getElementById("display").innerText = allState.display;
-  }, [allState.display, allState.term2, allState.operator]);
+  }, [allState]);
+
 
   function computationReducer(allState, action) {
     if (action.type === "append") {
@@ -48,10 +49,11 @@ function App() {
         display: numberValidator(action.num, allState.term1),
       };
       }else{
+
         return {
           ...allState,
           term2: numberValidator(action.num, allState.term2),
-          display: allState.display + numberValidator(action.num, allState.term2),
+          display: allState.display + action.num,
         };
       }
     } else if (action.type === "delete") {
