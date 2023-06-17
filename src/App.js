@@ -35,21 +35,19 @@ function App() {
   const [allState, dispatch] = useReducer(computationReducer, initialState);
 
   useEffect(() => {
-    console.log(allState)
+    console.log(allState);
     document.getElementById("display").innerText = allState.display;
   }, [allState]);
 
-
   function computationReducer(allState, action) {
     if (action.type === "append") {
-      if(allState.operator === ''){
+      if (allState.operator === "") {
         return {
-        ...allState,
-        term1: numberValidator(action.num, allState.term1),
-        display: numberValidator(action.num, allState.term1),
-      };
-      }else{
-
+          ...allState,
+          term1: numberValidator(action.num, allState.term1),
+          display: numberValidator(action.num, allState.term1),
+        };
+      } else {
         return {
           ...allState,
           term2: numberValidator(action.num, allState.term2),
@@ -64,7 +62,28 @@ function App() {
         display: "0",
         result: "",
       };
+
+      // failing tests: 3 + 5 * 6 - 2 / 4
+      //if you press an operation that is not equals-to....the last operator should simply be overriden
     } else if (action.type === "operator") {
+      if(allState.operator !== '' && allState.term2 !== '' && action.sign !== '='){
+        console.log(eval(allState.display))
+        return{
+          ...allState,
+          term1: eval(allState.display).toString(),
+          term2: "",
+          operator: action.sign,
+          display: eval(allState.display).toString() + action.sign,
+        }
+      }else if (allState.operator !== '' && allState.term2 !== '' && action.sign === '='){
+        return{
+          ...allState,
+          term1: eval(allState.display).toString(),
+          term2: "",
+          operator: '',
+          display: eval(allState.display).toString(),
+        }
+      }
       return {
         ...allState,
         operator: action.sign,
@@ -93,7 +112,6 @@ function App() {
 
   const handleDelete = (e) => {
     e.preventDefault();
-
     dispatch({
       type: "delete",
     });
