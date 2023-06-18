@@ -49,26 +49,7 @@ function computationReducer(state, action) {
             term2: action.sign,
             display: state.display + action.sign,
           };
-        }else{
-          // if(state.term2.includes("--")){
-          //   state.term2.replace("--", "-")
-          // }
-          const evaluatedDisplay =  eval(state.display).toString()
-          console.log('double negatives')
-          return {
-            ...state,
-          term1: state.term2.includes("--")
-            ? state.term2.replace("--", "-") && "-" + evaluatedDisplay
-            : evaluatedDisplay,
-          term2: "",
-          operator: action.sign,
-          display:
-            state.term2.includes("--") || state.term1 === evaluatedDisplay
-              ? state.term2.replace("--", "-") && "-" + evaluatedDisplay
-              : evaluatedDisplay + action.sign,
-          }
         }
-        //3 + 5 * 6 - 2 / 4
       } else if (
         state.operator !== "" &&
         state.term2 !== "" &&
