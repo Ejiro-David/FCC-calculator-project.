@@ -18,7 +18,7 @@ function numberValidator(numToAppend, currNumber) {
 
 // Reducer function to handle state updates
 function computationReducer(state, action) {
-  console.log(state)
+  // console.log(state)
   switch (action.type) {
     case "append":
       if (state.operator === "") {
@@ -70,7 +70,6 @@ function computationReducer(state, action) {
         action.sign !== "="
       ) {
         if(state.term2 === '-'){
-          console.log('override minus')
             return{
               ...state,
               term2: '',
@@ -90,7 +89,6 @@ function computationReducer(state, action) {
               ? state.display.replace("--", "+")
               : state.display
           ).toString();
-          console.log(state.operator);
           return {
             ...state,
             term1: state.term2.includes("--")
@@ -152,6 +150,51 @@ function App() {
     // Update the display when state changes
     document.getElementById("display").innerText = state.display;
   }, [state]);
+
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    // console.log(key)
+    const buttonIdMap = {
+      "0": "zero",
+      "1": "one",
+      "2": "two",
+      "3": "three",
+      "4": "four",
+      "5": "five",
+      "6": "six",
+      "7": "seven",
+      "8": "eight",
+      "9": "nine",
+      "/": "divide",
+      "*": "multiply",
+      "-": "subtract",
+      "+": "add",
+      "=": "equals",
+      ".": "decimal",
+      Enter: "equals", 
+      Backspace: "clear" 
+    }
+
+    if(buttonIdMap.hasOwnProperty(key)){
+      // console.log(buttonIdMap[key])
+      const buttonId = buttonIdMap[key];
+      const button = document.getElementById(buttonId) 
+
+      if(button){
+        button.click()
+      }
+    }
+
+  }
+  document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+
 
   const handleNumPress = (e) => {
     e.preventDefault();
@@ -241,6 +284,8 @@ function App() {
       </div>
     </div>
   );
+
+
 }
 
 export default App;
