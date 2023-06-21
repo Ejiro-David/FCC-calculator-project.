@@ -18,6 +18,7 @@ function numberValidator(numToAppend, currNumber) {
 
 // Reducer function to handle state updates
 function computationReducer(state, action) {
+  console.log(state)
   switch (action.type) {
     case "append":
       if (state.operator === "") {
@@ -50,11 +51,7 @@ function computationReducer(state, action) {
             display: state.display + action.sign,
           };
         } else {
-          // if(state.term2.includes("--")){
-          //   state.term2.replace("--", "-")
-          // }
-          const evaluatedDisplay = eval(state.display).toString();
-          console.log("double negatives");
+          const evaluatedDisplay = eval(state.display.includes('--')  ? state.display.replace("--", "+") : state.display).toString();
           return {
             ...state,
             term1: state.term2.includes("--")
@@ -70,28 +67,51 @@ function computationReducer(state, action) {
         }
       } else if (
         state.operator !== "" &&
-        state.term2 !== "" &&
         action.sign !== "="
       ) {
-        const evaluatedDisplay = eval(state.display).toString();
-        return {
-          ...state,
-          term1: state.term2.includes("--")
-            ? state.term2.replace("--", "-") && "-" + evaluatedDisplay
-            : evaluatedDisplay,
-          term2: "",
-          operator: action.sign,
-          display:
-            state.term2.includes("--") || state.term1 === evaluatedDisplay
+        if(state.term2 === '-'){
+          console.log('override minus')
+            return{
+              ...state,
+              term2: '',
+              operator: action.sign,
+              display: state.term1 + action.sign
+            }
+        }else if(state.term2 === ''){
+          return{
+            ...state,
+            operator: action.sign,
+            display: state.term1 + action.sign
+          }
+        }
+        else{
+          const evaluatedDisplay = eval(
+            state.display.includes("--")
+              ? state.display.replace("--", "+")
+              : state.display
+          ).toString();
+          console.log(state.operator);
+          return {
+            ...state,
+            term1: state.term2.includes("--")
               ? state.term2.replace("--", "-") && "-" + evaluatedDisplay
-              : evaluatedDisplay + action.sign,
-        };
-      } else if (
+              : evaluatedDisplay,
+            term2: "",
+            operator: action.sign,
+            display:
+              state.term2.includes("--") || state.term1 === evaluatedDisplay
+                ? state.term2.replace("--", "-") && "-" + evaluatedDisplay
+                : evaluatedDisplay + action.sign,
+          };
+        }
+      }
+
+       else if (
         state.operator !== "" &&
         state.term2 !== "" &&
         action.sign === "="
       ) {
-        const evaluatedDisplay = eval(state.display).toString();
+        const evaluatedDisplay = eval(state.display.includes('--')  ? state.display.replace("--", "+") : state.display).toString();
         return {
           ...state,
           term1: state.term2.includes("--")
