@@ -229,6 +229,9 @@ useEffect(() => {
         <div id="display">{state.display}</div>
         <form className="buttons-container">
           {/* Buttons for calculator */}
+          <button id="rabbithole" className="clear">
+            <a href="https://gwern.net/doc/rotten.com/library/index.html" target="_blank" rel="noopener noreferrer">🕳️🐇</a>
+          </button>
           <button id="clear" className="clear" onClick={handleDelete}>
             clear
           </button>
